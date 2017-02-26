@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>TechNights: Exercise 1</title>
+		<title>TechNights: Exercise 1, Part 1</title>
 		<style>
 		.incorrect {
 			background: #ffcccc;
@@ -11,12 +11,19 @@
 	</head>
 	<body>
 		<h1>Exercise 1</h1>
+		<p>In this exercise, we're going to use a list of real book titles to generate some fake book titles. The first step is to collect all the data we need so that the computer knows which words usually come after which other words.</p>
 
 		<h2>Book titles</h2>
+		<p>Here are the example book titles that we will give the computer so that it can learn to generate other book titles:</p>
 		<ul id="book-titles"></ul>
 
-		<h2>Collect data</h2>
+		<h2>Part 1: Collect word data</h2>
+		<p>Instructions: Fill in this text box with the words that come at the very start of each title.</p>
 		<p>Start words: <input type="text"></p>
+
+		<p>Instructions: In the table below, the left-hand column is a list of all the different words in our book titles, and the right-hand column is a list of the words that come directly after those words.</p>
+		<p>Go through the words in each title one by one. For each word, find the row for that word and add the <strong>next</strong> word in the title to that list. If a word comes at the end of the title (and thus doesn't have a next word), enter "(END)" instead.</p>
+		<p>Repeats are allowed. That means that for instance, if the phrase "of the" appeared 3 times in our book titles, the word "the" would appear 3 times in the row for "of".</p>
 		<table id="word-data">
 		  <tr>
 		    <th>Current word</th>
@@ -25,8 +32,22 @@
 		</table>
 
 		<button type="button" onclick="checkWork()">Check my work!</button>
+		<p>After you check your work and everything is right, you can <a href="book-titles-2.html">go on to part 2</a>.</p>
 
 		<script>
+			var finished = false;
+			window.onbeforeunload = function() {
+				var fields = Array.prototype.slice.call(document.getElementsByTagName('input'));
+				if (finished) {
+					return;
+				}
+				for (var i = 0; i < fields.length; i++) {
+					if (fields[i].value.length > 0) {
+						return "Are you sure you want to navigate away?";
+					}
+				}
+			}
+
 			var titles = [
 			  "The Sisterhood of the Traveling Pants",
 			  "Charlie and the Chocolate Factory",
@@ -64,7 +85,7 @@
 				var titleWords = titles[i].split(' ')
 			    allWords = allWords.concat(titleWords);
 			    startWords.push(titleWords[0]);
-			    wordStats[titleWords[titleWords.length - 1]] = ["<END>"]
+			    wordStats[titleWords[titleWords.length - 1]] = ["(END)"]
 			    for (var j = 0; j < titleWords.length-1; j++) {
 			        if (wordStats.hasOwnProperty(titleWords[j])) {
 			            wordStats[titleWords[j]].push(titleWords[j+1]);
@@ -79,6 +100,7 @@
 		        return i == 0 || word != list[i-1];
 		    })			
 
+			// Generate the word data table for students to fill out
 		    var tableBody = document.getElementById("word-data");
 		    for (var i = 0; i < allWords.length; i++) {
 		    	var row = document.createElement('tr');
@@ -154,6 +176,7 @@
 		    	if (hasError) {
 		    		alert("Not quite. Double check the red text boxes.");
 		    	} else {
+		    		finished = true;
 		    		alert("You got it! Please let the volunteers know that you are done.");
 		    	}
 		    }

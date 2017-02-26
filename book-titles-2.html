@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>TechNights: Exercise 1, Part 2</title>
+	</head>
+	<body>
+		<h1>Exercise 1</h1>
+		<h2>Part 2: Generate book titles</h2>
+		<p>In part 1, you collected data. Now, let's use that data to generate fake book titles!</p>
+
+		<h3>Real book titles</h3>
+		<ul id="book-titles"></ul>
+
+		<h3>Word data</h3>
+		<table id="word-data">
+		  <tr>
+		    <th>Current word</th>
+		    <th>Next word</th> 
+		  </tr>
+		</table>
+
+		<div id="generated-title"></div>
+
+		<button type="button" onclick="generateTitle()">Start generating</button>
+
+		<script>
+			var titles = [
+			  "The Sisterhood of the Traveling Pants",
+			  "Charlie and the Chocolate Factory",
+			  "James and the Giant Peach",
+			  "Harry Potter and the Sorcerer's Stone",
+			  "The Adventures of Tom Sawyer",
+			  "Because of Winn-Dixie",
+			];
+
+			// Display the list of book titles on the page
+			for (var i = 0; i < titles.length; i++) {
+				var node = document.createElement("li");
+				var textNode = document.createTextNode(titles[i]);
+				node.appendChild(textNode); 
+				document.getElementById("book-titles").appendChild(node);
+			}
+
+			var terminals = {};
+			var startWords = [];
+			var wordStats = {};
+
+			for (var i = 0; i < titles.length; i++) {
+			    var words = titles[i].split(' ');
+			    terminals[words[words.length-1]] = true;
+			    startWords.push(words[0]);
+			    for (var j = 0; j < words.length - 1; j++) {
+			        if (wordStats.hasOwnProperty(words[j])) {
+			            wordStats[words[j]].push(words[j+1]);
+			        } else {
+			            wordStats[words[j]] = [words[j+1]];
+			        }
+			    }
+			}
+
+			// Display the word data
+		    var tableBody = document.getElementById("word-data");
+		    for (word in wordStats) {
+		    	var row = document.createElement('tr');
+
+		    	// Word label
+	    		var wordCell = document.createElement('td');
+	    		wordCell.appendChild(document.createTextNode(word + ":"));
+	    		row.appendChild(wordCell);
+
+	    		// Input box
+	    		var nextWordsCell = document.createElement('td');
+	    		for (var i = 0; i < wordStats[word].length; i++) {
+	    			var span = document.createElement('span');
+	    			var text = document.createTextNode(wordStats[word][i]);
+	    			span.appendChild(text);
+	    			nextWordsCell.appendChild(span);
+	    			nextWordsCell.appendChild(document.createTextNode(', '));
+	    		}
+	    		row.appendChild(nextWordsCell);
+
+		    	tableBody.appendChild(row);
+		    }
+
+			var choice = function (a) {
+			    var i = Math.floor(a.length * Math.random());
+			    return a[i];
+			};
+
+			var makeTitle = function (minLength) {
+			    word = choice(startWords);
+			    var title = [word];
+			    while (wordStats.hasOwnProperty(word)) {
+			        var next_words = wordStats[word];
+			        word = choice(next_words);
+			        title.push(word);
+			        if (title.length > minLength && terminals.hasOwnProperty(word)) break;
+			    }
+			    if (title.length < minLength) return makeTitle(minLength);
+			    return title.join(' ');
+			};
+
+		    function generateTitle() {
+		    	var generatedTitleSection = document.getElementById('generated-title');
+		    	generatedTitleSection.innerHTML = '';
+		    	
+		    	var header = document.createElement('h3');
+		    	var text = document.createTextNode('Automatically generated title: ');
+		    	header.appendChild(text);
+		    	generatedTitleSection.appendChild(header);
+
+		    	var title = document.createTextNode(makeTitle(0));
+		    	var span = document.createElement('span');
+		    	span.appendChild(title);
+		    	generatedTitleSection.appendChild(span);
+		    }
+		</script>
+	</body>
+</html>
