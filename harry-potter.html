@@ -245,6 +245,10 @@
         </div>
 
         <script type="text/javascript">
+            var tableData;
+            var pagesDisplayed = 0;
+            var pageSize = 100;
+
             // Sort by frequency, and then by alphabetical order in case of a tie
             function freqAlphaSort(a, b) {
                 var freqA = a[1]
@@ -264,6 +268,28 @@
                 }
             }
 
+            function addRowsToTable(table) {
+                var startingPoint = pageSize*pagesDisplayed;
+                var rowsToAdd = Math.min(tableData.length - startingPoint, pageSize);
+                for (var i = startingPoint; i < startingPoint + rowsToAdd; i++) {
+                    var wordCell = document.createElement('td');
+                    var wordText = document.createTextNode(tableData[i][0]);
+                    wordCell.appendChild(wordText);
+
+                    var freqCell = document.createElement('td');
+                    var freqText = document.createTextNode(tableData[i][1]);
+                    freqCell.appendChild(freqText);
+
+                    var row = document.createElement('tr');
+                    row.appendChild(wordCell);
+                    row.appendChild(freqCell)
+                    table.appendChild(row)
+                }
+                if (rowsToAdd > 0) {
+                    pagesDisplayed += 1;
+                }
+            }
+
             // Display a table given a mapping of words to frequencies + a header label.
             function displayTable(data, leftHeaderLabel) {
                 var scrollBox = document.getElementById('scroll-box');
@@ -271,6 +297,7 @@
                 scrollBox.scrollTop = 0;
 
                 var wordTable = document.createElement('table')
+                wordTable.id = 'word-table';
                 scrollBox.appendChild(wordTable);
 
                 var leftHeader = document.createElement('th');
@@ -291,22 +318,10 @@
                 for (word in data) {
                     wordFreqList.push([word, data[word]]);
                 }
-                var wordFreqList = wordFreqList.sort(freqAlphaSort);
+                tableData = wordFreqList.sort(freqAlphaSort);
+                pagesDisplayed = 0;
 
-                for (var i = 0; i < wordFreqList.length; i++) {
-                    var wordCell = document.createElement('td');
-                    var wordText = document.createTextNode(wordFreqList[i][0]);
-                    wordCell.appendChild(wordText);
-
-                    var freqCell = document.createElement('td');
-                    var freqText = document.createTextNode(wordFreqList[i][1]);
-                    freqCell.appendChild(freqText);
-
-                    var row = document.createElement('tr');
-                    row.appendChild(wordCell);
-                    row.appendChild(freqCell)
-                    wordTable.append(row)
-                }
+                addRowsToTable(wordTable);
             }
 
             function displayStartStates() {
@@ -360,9 +375,17 @@
                 if (!e) e = window.event;
                 var keyCode = e.keyCode || e.which;
                 if (keyCode == '13'){
-                  displayNextWords();
+                    displayNextWords();
                 }
-              }
+            }
+
+            document.getElementById('scroll-box').onscroll = function(e) {
+                var table = document.getElementById('word-table');
+                var nearBottom = e.target.scrollTop > (e.target.scrollHeight - e.target.offsetHeight - 400);
+                if (table != null && nearBottom) {
+                    addRowsToTable(document.getElementById('word-table'));
+                }
+            };
 
         </script>
     </body>
