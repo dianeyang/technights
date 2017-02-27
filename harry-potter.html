@@ -1,387 +1,404 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>TechNights: Exercise 2</title>
-		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato:400,700">
-		<style type="text/css">
-			* {
-				box-sizing: border-box;
-				outline: none;
-			}
+    <head>
+        <meta charset="UTF-8">
+        <title>TechNights: Exercise 2</title>
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato:400,700">
+        <style type="text/css">
+            * {
+                box-sizing: border-box;
+                outline: none;
+            }
 
-			body {
-				font-family: 'Lato';
-				line-height: 1.5;
-				color: #4c4c4c;
-				background-color: #f0f0f0;
-				margin: 0;
-				border-top: 10px solid #1cb0f6;
-			}
+            body {
+                font-family: 'Lato';
+                line-height: 1.5;
+                color: #4c4c4c;
+                background-color: #f0f0f0;
+                margin: 0;
+                border-top: 10px solid #1cb0f6;
+            }
 
-			::-webkit-input-placeholder {
-			   text-align: center;
-			}
+            ::-webkit-input-placeholder {
+               text-align: center;
+            }
 
-			:-moz-placeholder { /* Firefox 18- */
-			   text-align: center;  
-			}
+            :-moz-placeholder { /* Firefox 18- */
+               text-align: center;
+            }
 
-			::-moz-placeholder {  /* Firefox 19+ */
-			   text-align: center;  
-			}
+            ::-moz-placeholder {  /* Firefox 19+ */
+               text-align: center;
+            }
 
-			:-ms-input-placeholder {  
-			   text-align: center; 
-			}
+            :-ms-input-placeholder {
+               text-align: center;
+            }
 
-			hr {
-				border: 0;
-				margin: 40px auto;
-				width: 250px;
-			}
+            hr {
+                border: 0;
+                margin: 40px auto;
+                width: 250px;
+            }
 
-			select {
-				background: #fff;
-			    height: 30px;
-			    width: 50px;
-			    border: 2px solid #cfcfcf;
-			    font-size: 14px;
-			    font-family: 'Lato';
-			}
+            select {
+                background: #fff;
+                height: 30px;
+                width: 50px;
+                border: 2px solid #cfcfcf;
+                font-size: 14px;
+                font-family: 'Lato';
+            }
 
-			button {
-				background-color: #1cb0f6;
-				color: #fff;
-				padding: 0 20px;
-				-webkit-border-radius: 999px;
-				-moz-border-radius: 999px; 
-				border-radius: 999px;
-				border: 0;
-				height: 40px;
-				width: 280px;
-				text-transform: uppercase;
-				font-size: 14px;
-				font-family: 'Lato';
-			}
+            button {
+                background-color: #1cb0f6;
+                color: #fff;
+                padding: 0 20px;
+                -webkit-border-radius: 999px;
+                -moz-border-radius: 999px;
+                border-radius: 999px;
+                border: 0;
+                height: 40px;
+                width: 280px;
+                text-transform: uppercase;
+                font-size: 14px;
+                font-family: 'Lato';
+            }
 
-			input[type=text] {
-				border: 2px solid #cfcfcf;
-				border-radius: 6px;
-				padding: 10px 15px;
-				margin-bottom: 15px;
-				color: #4c4c4c;
-				font-size: 14px;
-				font-family: 'Lato';
-				line-height: normal;
-				width: 280px;
-			}
+            input[type=text] {
+                border: 2px solid #cfcfcf;
+                border-radius: 6px;
+                padding: 10px 15px;
+                margin-bottom: 15px;
+                color: #4c4c4c;
+                font-size: 14px;
+                font-family: 'Lato';
+                line-height: normal;
+                width: 280px;
+            }
 
-			input[type=text]:focus, select:focus {
-				border-color: #1cb0f6;
-			}
+            input[type=text]:focus, select:focus {
+                border-color: #1cb0f6;
+            }
 
-			th, td {
-				width: 50%;
-				border-bottom: 1px solid #cfcfcf;
-			}
+            th, td {
+                width: 50%;
+                border-bottom: 1px solid #cfcfcf;
+            }
 
-			th {
-				padding-bottom: 10px;
-			}
+            th {
+                padding-bottom: 10px;
+            }
 
-			td {
-				padding: 5px 0;
-			}
+            td {
+                padding: 5px 0;
+            }
 
-			#container {
-				margin: auto;
-				padding-top: 50px;
-				width: 70%;
-				min-width: 700px;
-			}
+            #container {
+                margin: auto;
+                padding-top: 50px;
+                width: 70%;
+                min-width: 700px;
+            }
 
-			#exercise {
-				margin: auto;
-				width: 100%;
-				margin-bottom: 80px;
-				margin-top: 40px;
-				float: left;
-			}
+            #exercise {
+                margin: auto;
+                width: 100%;
+                margin-bottom: 80px;
+                margin-top: 40px;
+                float: left;
+            }
 
-			#left-column {
-				float: left;
-				width: 50%;
-				padding-right: 30px;
-				text-align: center;
-			}
+            #left-column {
+                float: left;
+                width: 50%;
+                padding-right: 30px;
+                text-align: center;
+            }
 
-			#order-section {
-				margin-top: 30px;
-			}
+            #order-section {
+                margin-top: 30px;
+            }
 
-			#start-words-section {
-				margin-top: 80px;
-			}
+            #start-words-section {
+                margin-top: 80px;
+            }
 
-			#next-words-section {
-				margin-top: 90px;
-			}
+            #next-words-section {
+                margin-top: 90px;
+            }
 
-			#right-column {
-				float: left;
-				width: 50%;
-			}
+            #right-column {
+                float: left;
+                width: 50%;
+            }
 
-			#scroll-box {
-				height: 400px;
-				width: 100%;
-				border: 2px solid #cfcfcf;
-				border-radius: 6px;
-				overflow: auto;
-				background-color: #fff;
-				padding: 20px 30px;
-			}
+            #scroll-box {
+                height: 400px;
+                width: 100%;
+                border: 2px solid #cfcfcf;
+                border-radius: 6px;
+                overflow: auto;
+                background-color: #fff;
+                padding: 20px 30px;
+            }
 
-			#message {
-				position: relative;
-			    text-align: center;
-			    width: 250px;
-			    top: 140px;
-			    margin: auto;
-			}
-		</style>
+            #message {
+                position: relative;
+                text-align: center;
+                width: 250px;
+                top: 140px;
+                margin: auto;
+            }
+        </style>
+        <script type="text/javascript">
+            function loadJSON(pathToFile, callback) {
+               var xobj = new XMLHttpRequest();
+                   xobj.overrideMimeType("application/json");
+               xobj.open('GET', pathToFile, true);
+               xobj.onreadystatechange = function () {
+                     if (xobj.readyState == 4 && xobj.status == "200") {
+                       callback(xobj.responseText);
+                     }
+               };
+               xobj.send(null);
+            }
 
-		<script src="json/hp-order-1.json"></script>
-		<script src="json/hp-order-2.json"></script>
-		<script src="json/hp-order-3.json"></script>
-		<script src="json/hp-order-4.json"></script>
-	</head>
-	<body>
-		<div id="container">
-			<h1>Harry Potter Text Generator</h1>
-			<p>At this point, we've seen how Markov chains work, and we've trained an order-1 Markov chain on a small set of text to generate book titles. Even with just 6 input titles, we were able to get a variety of results. But this technique usually works better with more input text. Let's see what happens when we give the computer a lot more words to learn from!</p>
-			<p>In this exercise, you'll be experimenting with order-<em>n</em> Markov chains that have been trained on all the text in <em>Harry Potter</em> series of books (that's about <em>1 million</em> words!). But what should the value of <em>n</em> be? That's up to you! Experiment with different values of <em>n</em> and see how that changes your results.
+            var currentModel;
+            var order = 1;
 
-			<h2>Instructions</h2>
-			<ol>
-				<li>Choose a value of <em>n</em> from 1 to 4 in the dropdown below.</li>
-				<li>Click "Show starting words" and pick one of the options to start your sentence.</li>
-				<li>Take the last <em>n</em> words from your sentence put them in the search box to see what words could come next. Repeat this step until the screen says you've reached the end of the sentence.</li>
-				<li>After you reach the end of your sentence, you can go ahead and start another sentence. Remember to try different values of <em>n</em>!</li>
-			</ol>
+            loadJSON('json/hp-order-1.json', function(responseText) {
+                currentModel = JSON.parse(responseText);
+            });
 
-			<div id="exercise">
-				<div id="left-column">
-					<div id="order-section">
-						<p>I am using an order-<select id="order" onchange="orderChanged()">
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-							</select>
-						Markov chain.</p>
-					</div>
-					<div id="start-words-section">
-						<button type="button" onclick="displayStartStates()">Show starting words</button>
-					</div>
-					<div id="next-words-section">
-						<input type="text" id="search" placeholder="Enter the last word of your sentence.">
-						<button type="button" onclick="displayNextWords()">Find possible next words</button>
-					</div>
-				</div>
+            // Sort alphabetically (case-insensitive)
+            function alphabeticalSort(a, b) {
+                var textA = a.toLowerCase();
+                var textB = b.toLowerCase();
+                if (textA < textB) {
+                    return -1;
+                } else if (textA > textB) {
+                    return 1;
+                }
+                return 0;
+            }
 
-				<div id="right-column">
-					<div id="scroll-box"></div>
-				</div>
-			</div>
-		</div>
+            function orderChanged() {
+                var dropdown = document.getElementById('order');
+                var selectedOrder = dropdown.options[dropdown.selectedIndex].value;
+                order = parseInt(selectedOrder);
 
-		<script type="text/javascript">
-			var models = [hp1, hp2, hp3, hp4];
-			var currentModel = hp1;
-			var order = 1;
+                loadJSON('json/hp-order-' + order + '.json', function(responseText) {
+                    currentModel = JSON.parse(responseText);
+                });
 
-			// Sort alphabetically (case-insensitive)
-			function alphabeticalSort(a, b) {
-			    var textA = a.toLowerCase();
-			    var textB = b.toLowerCase();
-			    if (textA < textB) {
-			    	return -1;
-			    } else if (textA > textB) {
-			    	return 1;
-			    }
-			    return 0;
-			}
+                var searchBox = document.getElementById('search');
+                if (order == 1) {
+                    searchBox.placeholder = 'Enter the last word of your sentence.';
+                } else {
+                    searchBox.placeholder = 'Enter the last ' + order + ' words of your sentence.';
+                }
 
-			function orderChanged() {
-				var dropdown = document.getElementById('order');
-				var selectedOrder = dropdown.options[dropdown.selectedIndex].value;
-				order = parseInt(selectedOrder);
-				currentModel = models[order-1];
+                var scrollBox = document.getElementById('scroll-box');
+                scrollBox.innerHTML = '';
+            }
+        </script>
+    </head>
+    <body>
+        <div id="container">
+            <h1>Harry Potter Text Generator</h1>
+            <p>At this point, we've seen how Markov chains work, and we've trained an order-1 Markov chain on a small set of text to generate book titles. Even with just 6 input titles, we were able to get a variety of results. But this technique usually works better with more input text. Let's see what happens when we give the computer a lot more words to learn from!</p>
+            <p>In this exercise, you'll be experimenting with order-<em>n</em> Markov chains that have been trained on all the text in <em>Harry Potter</em> series of books (that's about <em>1 million</em> words!). But what should the value of <em>n</em> be? That's up to you! Experiment with different values of <em>n</em> and see how that changes your results.
 
-				var searchBox = document.getElementById('search');
-				if (order == 1) {
-					searchBox.placeholder = 'Enter the last word of your sentence.';
-				} else {
-					searchBox.placeholder = 'Enter the last ' + order + ' words of your sentence.';
-				}
+            <h2>Instructions</h2>
+            <ol>
+                <li>Choose a value of <em>n</em> from 1 to 4 in the dropdown below.</li>
+                <li>Click "Show starting words" and pick one of the options to start your sentence.</li>
+                <li>Take the last <em>n</em> words from your sentence put them in the search box to see what words could come next. Repeat this step until the screen says you've reached the end of the sentence.</li>
+                <li>After you reach the end of your sentence, you can go ahead and start another sentence. Remember to try different values of <em>n</em>!</li>
+            </ol>
 
-				var scrollBox = document.getElementById('scroll-box');
-				scrollBox.innerHTML = '';
-			}
+            <div id="exercise">
+                <div id="left-column">
+                    <div id="order-section">
+                        <p>I am using an order-<select id="order" onchange="orderChanged()">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        Markov chain.</p>
+                    </div>
+                    <div id="start-words-section">
+                        <button type="button" onclick="displayStartStates()">Show starting words</button>
+                    </div>
+                    <div id="next-words-section">
+                        <input type="text" id="search" placeholder="Enter the last word of your sentence.">
+                        <button type="button" onclick="displayNextWords()">Find possible next words</button>
+                    </div>
+                </div>
 
-			function freqAlphaSort(a, b) {
-				var freqA = a[1]
-				var freqB = b[1];
-				if (freqA < freqB) {
-					return 1;
-				} else if (freqA > freqB) {
-					return -1;
-				} else {
-					if (a[0].toLowerCase() < b[0].toLowerCase()) {
-						return -1;
-					} else if (a[0].toLowerCase() > b[0].toLowerCase()) {
-						return 1;
-					} else {
-						return 0;
-					}
-				}
-			}
+                <div id="right-column">
+                    <div id="scroll-box"></div>
+                </div>
+            </div>
+        </div>
 
-			function displayStartStates() {
-				var scrollBox = document.getElementById('scroll-box');
-				scrollBox.innerHTML = '';
-				scrollBox.scrollTop = 0;
-				var wordTable = document.createElement('table')
-				scrollBox.appendChild(wordTable);
+        <script type="text/javascript">
+            // Sort by frequency, and then by alphabetical order in case of a tie
+            function freqAlphaSort(a, b) {
+                var freqA = a[1]
+                var freqB = b[1];
+                if (freqA < freqB) {
+                    return 1;
+                } else if (freqA > freqB) {
+                    return -1;
+                } else {
+                    if (a[0].toLowerCase() < b[0].toLowerCase()) {
+                        return -1;
+                    } else if (a[0].toLowerCase() > b[0].toLowerCase()) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                }
+            }
 
-				var leftHeader = document.createElement('th');
-				var leftLabel = document.createTextNode('Possible starting words');
-				leftHeader.appendChild(leftLabel);
+            function displayStartStates() {
+                var scrollBox = document.getElementById('scroll-box');
+                scrollBox.innerHTML = '';
+                scrollBox.scrollTop = 0;
+                var wordTable = document.createElement('table')
+                scrollBox.appendChild(wordTable);
 
-				var rightHeader = document.createElement('th');
-				var rightLabel = document.createTextNode('# of occurrences in Harry Potter');
-				rightHeader.appendChild(rightLabel);
+                var leftHeader = document.createElement('th');
+                var leftLabel = document.createTextNode('Possible starting words');
+                leftHeader.appendChild(leftLabel);
 
-				var headerRow = document.createElement('tr');
-				headerRow.appendChild(leftHeader);
-				headerRow.appendChild(rightHeader);
-				wordTable.appendChild(headerRow);
+                var rightHeader = document.createElement('th');
+                var rightLabel = document.createTextNode('# of occurrences in Harry Potter');
+                rightHeader.appendChild(rightLabel);
 
-				// Sort the possible next words by frequency and alphabetical order
-				var startStates = currentModel['startStates'];
-				var wordFreqList = [];
-				for (word in startStates) {
-					wordFreqList.push([word, startStates[word]]);
-				}
-				var wordFreqList = wordFreqList.sort(freqAlphaSort);
+                var headerRow = document.createElement('tr');
+                headerRow.appendChild(leftHeader);
+                headerRow.appendChild(rightHeader);
+                wordTable.appendChild(headerRow);
 
-				for (var i = 0; i < wordFreqList.length; i++) {
-					var wordCell = document.createElement('td');
-					var wordText = document.createTextNode(wordFreqList[i][0]);
-					wordCell.appendChild(wordText);
+                // Sort the possible next words by frequency and alphabetical order
+                var startStates = currentModel['startStates'];
+                var wordFreqList = [];
+                for (word in startStates) {
+                    wordFreqList.push([word, startStates[word]]);
+                }
+                var wordFreqList = wordFreqList.sort(freqAlphaSort);
 
-					var freqCell = document.createElement('td');
-					var freqText = document.createTextNode(wordFreqList[i][1]);
-					freqCell.appendChild(freqText);
+                for (var i = 0; i < wordFreqList.length; i++) {
+                    var wordCell = document.createElement('td');
+                    var wordText = document.createTextNode(wordFreqList[i][0]);
+                    wordCell.appendChild(wordText);
 
-					var row = document.createElement('tr');
-					row.appendChild(wordCell);
-					row.appendChild(freqCell)
-					wordTable.append(row)
-				}
-			}
+                    var freqCell = document.createElement('td');
+                    var freqText = document.createTextNode(wordFreqList[i][1]);
+                    freqCell.appendChild(freqText);
 
-			function displayMessage(text) {
-				var scrollBox = document.getElementById('scroll-box');
-				scrollBox.innerHTML = '';
+                    var row = document.createElement('tr');
+                    row.appendChild(wordCell);
+                    row.appendChild(freqCell)
+                    wordTable.append(row)
+                }
+            }
 
-				var messageText = document.createTextNode(text);
-				var messageDiv = document.createElement('div');
-				messageDiv.id = 'message';
-				messageDiv.appendChild(messageText);
+            function displayMessage(text) {
+                var scrollBox = document.getElementById('scroll-box');
+                scrollBox.innerHTML = '';
 
-				scrollBox.appendChild(messageDiv);
-			}
+                var messageText = document.createTextNode(text);
+                var messageDiv = document.createElement('div');
+                messageDiv.id = 'message';
+                messageDiv.appendChild(messageText);
 
-			function displayNextWords() {
-				var searchTerm = document.getElementById('search').value;
+                scrollBox.appendChild(messageDiv);
+            }
 
-				var searchTermLength = searchTerm.split(' ').length;
-				var explanation = 'Your search should have exactly ' + order + ' word' + 's'.repeat(order > 1 ? 1 : 0) + '.'
-				if (searchTermLength < order) {
-					displayMessage('That doesn\'t seem to be enough words. ' + explanation); 
-					return;
-				}
-				if (searchTermLength > order) {
-					displayMessage('That\'s too many words. ' + explanation); 
-					return;
-				}
+            function displayNextWords() {
+                var searchTerm = document.getElementById('search').value;
 
-				if (currentModel['endStates'].includes(searchTerm)) {
-					displayMessage('You\'ve reached the end of the sentence!');
-					return;
-				}
+                var searchTermLength = searchTerm.split(' ').length;
+                var explanation = 'Your search should have exactly ' + order + ' word' + 's'.repeat(order > 1 ? 1 : 0) + '.'
+                if (searchTermLength < order) {
+                    displayMessage('That doesn\'t seem to be enough words. ' + explanation);
+                    return;
+                }
+                if (searchTermLength > order) {
+                    displayMessage('That\'s too many words. ' + explanation);
+                    return;
+                }
 
-				var searchTermNextWords = currentModel['wordStats'][searchTerm];
-				if (searchTermNextWords == undefined || searchTermNextWords.length == 0) {
-					displayMessage('The text you searched does not appear in the data set.');
-					return;
-				}
+                if (currentModel['endStates'].includes(searchTerm)) {
+                    displayMessage('You\'ve reached the end of the sentence!');
+                    return;
+                }
 
-				var scrollBox = document.getElementById('scroll-box');
-				scrollBox.innerHTML = '';
-				scrollBox.scrollTop = 0;
+                var searchTermNextWords = currentModel['wordStats'][searchTerm];
+                if (searchTermNextWords == undefined || searchTermNextWords.length == 0) {
+                    displayMessage('The text you searched does not appear in the data set.');
+                    return;
+                }
 
-				var wordTable = document.createElement('table')
-				scrollBox.appendChild(wordTable);
+                var scrollBox = document.getElementById('scroll-box');
+                scrollBox.innerHTML = '';
+                scrollBox.scrollTop = 0;
 
-				var leftHeader = document.createElement('th');
-				var leftLabel = document.createTextNode('Possible next word');
-				leftHeader.appendChild(leftLabel);
+                var wordTable = document.createElement('table')
+                scrollBox.appendChild(wordTable);
 
-				var rightHeader = document.createElement('th');
-				var rightLabel = document.createTextNode('# of occurrences in Harry Potter');
-				rightHeader.appendChild(rightLabel);
+                var leftHeader = document.createElement('th');
+                var leftLabel = document.createTextNode('Possible next word');
+                leftHeader.appendChild(leftLabel);
 
-				var headerRow = document.createElement('tr');
-				headerRow.appendChild(leftHeader);
-				headerRow.appendChild(rightHeader);
-				wordTable.appendChild(headerRow);
+                var rightHeader = document.createElement('th');
+                var rightLabel = document.createTextNode('# of occurrences in Harry Potter');
+                rightHeader.appendChild(rightLabel);
 
-				// Sort the possible next words by frequency and alphabetical order
-				var wordFreqList = [];
-				for (word in searchTermNextWords) {
-					wordFreqList.push([word, searchTermNextWords[word]]);
-				}
-				var wordFreqList = wordFreqList.sort(freqAlphaSort);
+                var headerRow = document.createElement('tr');
+                headerRow.appendChild(leftHeader);
+                headerRow.appendChild(rightHeader);
+                wordTable.appendChild(headerRow);
 
-				for (var i = 0; i < wordFreqList.length; i++) {
-					var wordCell = document.createElement('td');
-					var wordText = document.createTextNode(wordFreqList[i][0]);
-					wordCell.appendChild(wordText);
+                // Sort the possible next words by frequency and alphabetical order
+                var wordFreqList = [];
+                for (word in searchTermNextWords) {
+                    wordFreqList.push([word, searchTermNextWords[word]]);
+                }
+                var wordFreqList = wordFreqList.sort(freqAlphaSort);
 
-					var freqCell = document.createElement('td');
-					var freqText = document.createTextNode(wordFreqList[i][1]);
-					freqCell.appendChild(freqText);
+                for (var i = 0; i < wordFreqList.length; i++) {
+                    var wordCell = document.createElement('td');
+                    var wordText = document.createTextNode(wordFreqList[i][0]);
+                    wordCell.appendChild(wordText);
 
-					var row = document.createElement('tr');
-					row.appendChild(wordCell);
-					row.appendChild(freqCell)
-					wordTable.append(row)
-				}
-			}
+                    var freqCell = document.createElement('td');
+                    var freqText = document.createTextNode(wordFreqList[i][1]);
+                    freqCell.appendChild(freqText);
 
-			// Search when the user presses enter in the input
-			document.getElementById('search').onkeypress = function(e){
-			    if (!e) e = window.event;
-			    var keyCode = e.keyCode || e.which;
-			    if (keyCode == '13'){
-			      displayNextWords();
-			    }
-			  }
+                    var row = document.createElement('tr');
+                    row.appendChild(wordCell);
+                    row.appendChild(freqCell)
+                    wordTable.append(row)
+                }
+            }
 
-		</script>
-	</body>
+            displayMessage('Use the controls on the left to get started!');
+
+            // Search when the user presses enter in the input
+            document.getElementById('search').onkeypress = function(e){
+                if (!e) e = window.event;
+                var keyCode = e.keyCode || e.which;
+                if (keyCode == '13'){
+                  displayNextWords();
+                }
+              }
+
+        </script>
+    </body>
 </html>
