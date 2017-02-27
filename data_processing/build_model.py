@@ -3,15 +3,20 @@ import random
 from collections import defaultdict
 
 abbreviations = ['Ms.', 'Mrs.', 'Mr.', 'St.', 'S.P.E.W.']
-terminal_punctuation = ['.', '?', '!', '."', '?"', '!"']
-replacements = {
-	u'\u201c': '',
-	u'\u201d': '',
-	u'\u2018': '\'',
-	u'\u2019': '\'',
-	u'\u00e9': 'e',
-	'\"': '',
-}
+terminal_punctuation = ['.', '?', '!']
+replacements = [
+	(u'\u201c', '\"'),
+	(u'\u201d', '\"'),
+	(u'\u2018', '\''),
+	(u'\u2019', '\''),
+	(u'\u00e9', 'e'),
+	('!\"', ','),
+	('?\"', ','),
+	('\"', ''),
+	(';', '.'),
+	('(', ''),
+	(')', ''),
+]
 
 def word_ends_sentence(word):
 	if word.endswith('...'):
@@ -46,7 +51,7 @@ for n in range(1, 5):
 		with open(file_name, 'r') as infile:
 			# Clean up text to only use ASCII
 			text = infile.read()
-			for old, new in replacements.iteritems():
+			for old, new in replacements:
 				text = text.replace(old, new)
 			# Remove tokens that are only punctuation
 			words = filter(lambda s: any(c.isalpha() for c in s), text.split())
@@ -63,10 +68,11 @@ for n in range(1, 5):
 			for sentence in sentences:
 				if len(sentence) < n:
 					continue
+
 				for k in range(n-1, len(sentence)):
 					last_n_words = sentence[k-n+1:k+1]
 					current_state = ' '.join(last_n_words)
-					if k == n-1:
+					if k == n-1 and sentence[k-n+1][0].isupper():
 						start_states[current_state] += 1
 					if k == len(sentence)-1:
 						end_states.append(current_state)
