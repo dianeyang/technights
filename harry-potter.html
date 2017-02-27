@@ -187,6 +187,7 @@
                 var dropdown = document.getElementById('order');
                 var selectedOrder = dropdown.options[dropdown.selectedIndex].value;
                 order = parseInt(selectedOrder);
+                currentModel = null;
 
                 loadJSON('json/hp-order-' + order + '.json', function(responseText) {
                     currentModel = JSON.parse(responseText);
@@ -325,6 +326,9 @@
             }
 
             function displayStartStates() {
+                if (currentModel == null) {
+                    return;
+                }
                 displayTable(currentModel['startStates'], 'Possible starting words')
             }
 
@@ -356,6 +360,10 @@
 
                 if (currentModel['endStates'].includes(searchTerm)) {
                     displayMessage('You\'ve reached the end of the sentence!');
+                    return;
+                }
+
+                if (currentModel == null) {
                     return;
                 }
 
