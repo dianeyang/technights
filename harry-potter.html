@@ -77,8 +77,21 @@
 				width: 280px;
 			}
 
-			input[type=text]:focus {
+			input[type=text]:focus, select:focus {
 				border-color: #1cb0f6;
+			}
+
+			th, td {
+				width: 50%;
+				border-bottom: 1px solid #cfcfcf;
+			}
+
+			th {
+				padding-bottom: 10px;
+			}
+
+			td {
+				padding: 5px 0;
 			}
 
 			#container {
@@ -127,6 +140,7 @@
 				border-radius: 6px;
 				overflow: auto;
 				background-color: #fff;
+				padding: 20px 30px;
 			}
 
 			#message {
@@ -136,7 +150,7 @@
 				left: 150px;
 				top: 200px;
 				margin-left: -125px;
-				margin-top: -30px;
+				margin-top: -50px;
 			}
 		</style>
 
@@ -291,6 +305,15 @@
 
 				scrollBox.appendChild(messageDiv);
 			}
+
+			document.getElementById('search').onkeypress = function(e){
+			    if (!e) e = window.event;
+			    var keyCode = e.keyCode || e.which;
+			    if (keyCode == '13'){
+			      // Enter pressed
+			      displayNextWords();
+			    }
+			  }
 
 			function displayNextWords() {
 				var searchTerm = document.getElementById('search').value;
