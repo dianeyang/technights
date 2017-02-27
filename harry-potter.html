@@ -233,15 +233,15 @@
                 pagesDisplayed = 0;
             }
 
-            function clearLastNWordsSearch() {
-                var lastNWordsSearch = document.getElementById('last-n-words-search');
+            function clearInput(id) {
+                var lastNWordsSearch = document.getElementById(id);
                 lastNWordsSearch.value = '';
             }
 
             function reset() {
                 clearScrollBox();
                 removeTableSearchBar();
-                clearLastNWordsSearch()
+                clearInput('last-n-words-search')
             }
 
             function orderChanged() {
@@ -384,7 +384,7 @@
                 if (currentModel == null) {
                     return;
                 }
-                clearLastNWordsSearch();
+                clearInput('last-n-words-search');
                 displayTable(currentModel['startStates'], startWordsHeader)
             }
 
@@ -401,6 +401,11 @@
             }
 
             function displayNextWords() {
+                var tableSearch = document.getElementById('table-search');
+                if (tableSearch) {
+                    clearInput('table-search');
+                }
+
                 var searchTerm = document.getElementById('last-n-words-search').value.trim();
 
                 var searchTermLength = searchTerm.split(' ').length;
