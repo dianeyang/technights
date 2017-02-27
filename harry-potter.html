@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>TechNights: Exercise 2</title>
+        <title>Harry Potter Text Generator</title>
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato:400,700">
         <style type="text/css">
             * {
@@ -44,7 +44,7 @@
             select {
                 background: #fff;
                 height: 30px;
-                width: 50px;
+                width: 40px;
                 border: 2px solid #cfcfcf;
                 font-size: 14px;
                 font-family: 'Lato';
@@ -345,11 +345,11 @@
             }
 
             function displayNextWords() {
-                var searchTerm = document.getElementById('search').value;
+                var searchTerm = document.getElementById('search').value.trim();
 
                 var searchTermLength = searchTerm.split(' ').length;
                 var explanation = 'Your search should have exactly ' + order + ' word' + 's'.repeat(order > 1 ? 1 : 0) + '.'
-                if (searchTermLength < order) {
+                if (searchTerm.length == 0 || searchTermLength < order) {
                     displayMessage('That doesn\'t seem to be enough words. ' + explanation);
                     return;
                 }

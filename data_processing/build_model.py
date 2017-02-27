@@ -85,7 +85,6 @@ for n in range(1, 5):
 	# Write results to a json file
 	output_file_name = '../json/hp-order-%d.json' % n
 	with open(output_file_name, 'w') as outfile:
-		outfile.write('var hp%d = ' % n)
 		json.dump(output, outfile, indent=4, sort_keys=True)
 	print "Done with order %d" % n
 	print '----------'
