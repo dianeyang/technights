@@ -53,7 +53,7 @@
                 border-radius: 999px;
                 border: 0;
                 height: 40px;
-                width: 280px;
+                width: 300px;
                 text-transform: uppercase;
                 font-size: 14px;
                 font-family: 'Lato';
@@ -68,7 +68,7 @@
                 font-size: 14px;
                 font-family: 'Lato';
                 line-height: normal;
-                width: 280px;
+                width: 300px;
             }
 
             input[type=text]:focus, select:focus {
@@ -208,7 +208,7 @@
                     </div>
                     <div id="next-words-section">
                         <input type="text" id="last-n-words-search" placeholder="Enter the last word of your sentence.">
-                        <button type="button" onclick="displayNextWords()">Find possible next words</button>
+                        <button type="button" onclick="displayNextWords()">Show possible following words</button>
                     </div>
                 </div>
 
@@ -241,6 +241,7 @@
             function reset() {
                 clearScrollBox();
                 removeTableSearchBar();
+                clearLastNWordsSearch()
             }
 
             function orderChanged() {
@@ -253,13 +254,14 @@
                     currentModel = JSON.parse(responseText);
                 });
 
+                reset();
+
                 var searchBox = document.getElementById('last-n-words-search');
                 if (order == 1) {
                     searchBox.placeholder = 'Enter the last word of your sentence.';
                 } else {
                     searchBox.placeholder = 'Enter the last ' + order + ' words of your sentence.';
                 }
-                reset();
             }
 
             // Sort by frequency, and then by alphabetical order in case of a tie
