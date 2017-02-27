@@ -145,12 +145,10 @@
 
 			#message {
 				position: relative;
-				text-align: center;
-				width: 250px;
-				left: 150px;
-				top: 200px;
-				margin-left: -125px;
-				margin-top: -50px;
+			    text-align: center;
+			    width: 250px;
+			    top: 140px;
+			    margin: auto;
 			}
 		</style>
 
@@ -254,6 +252,7 @@
 			function displayStartStates() {
 				var scrollBox = document.getElementById('scroll-box');
 				scrollBox.innerHTML = '';
+				scrollBox.scrollTop = 0;
 				var wordTable = document.createElement('table')
 				scrollBox.appendChild(wordTable);
 
@@ -306,15 +305,6 @@
 				scrollBox.appendChild(messageDiv);
 			}
 
-			document.getElementById('search').onkeypress = function(e){
-			    if (!e) e = window.event;
-			    var keyCode = e.keyCode || e.which;
-			    if (keyCode == '13'){
-			      // Enter pressed
-			      displayNextWords();
-			    }
-			  }
-
 			function displayNextWords() {
 				var searchTerm = document.getElementById('search').value;
 
@@ -342,6 +332,7 @@
 
 				var scrollBox = document.getElementById('scroll-box');
 				scrollBox.innerHTML = '';
+				scrollBox.scrollTop = 0;
 
 				var wordTable = document.createElement('table')
 				scrollBox.appendChild(wordTable);
@@ -381,6 +372,15 @@
 					wordTable.append(row)
 				}
 			}
+
+			// Search when the user presses enter in the input
+			document.getElementById('search').onkeypress = function(e){
+			    if (!e) e = window.event;
+			    var keyCode = e.keyCode || e.which;
+			    if (keyCode == '13'){
+			      displayNextWords();
+			    }
+			  }
 
 		</script>
 	</body>
