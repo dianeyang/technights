@@ -64,7 +64,7 @@
 		<br>
 		<button type="button" onclick="displayStartStates()">Show starting words</button>
 		<br><br><br><br>
-		<input type="text" id="search" placeholder="Enter the last n words in your current sentence" style="width:300px">
+		<input type="text" id="search" placeholder="Enter the last word of your current sentence." style="width:300px">
 		<br>
 		<button type="button" onclick="displayNextWords()">Find what words could come next</button>
 	</div>
@@ -76,6 +76,7 @@
 	<script type="text/javascript">
 		var models = [hp1, hp2, hp3, hp4];
 		var currentModel = hp1;
+		var order = 1;
 
 		// Sort alphabetically (case-insensitive)
 		function alphabeticalSort(a, b) {
@@ -91,9 +92,16 @@
 
 		function orderChanged() {
 			var dropdown = document.getElementById('order');
-			var order = dropdown.options[dropdown.selectedIndex].value;
-			order = parseInt(order);
+			var selectedOrder = dropdown.options[dropdown.selectedIndex].value;
+			order = parseInt(selectedOrder);
 			currentModel = models[order-1];
+
+			var searchBox = document.getElementById('search');
+			if (order == 1) {
+				searchBox.placeholder = 'Enter the last word of your current sentence.';
+			} else {
+				searchBox.placeholder = 'Enter the last ' + order + ' words of your current sentence.';
+			}
 
 			var scrollBox = document.getElementById('scroll-box');
 			scrollBox.innerHTML = '';
@@ -175,8 +183,25 @@
 		function displayNextWords() {
 			var searchTerm = document.getElementById('search').value;
 
+			var searchTermLength = searchTerm.split(' ').length;
+			var explanation = 'Your search should have exactly ' + order + ' word' + 's'.repeat(order > 1 ? 1 : 0) + '.'
+			if (searchTermLength < order) {
+				displayMessage('That doesn\'t seem to be enough words. ' + explanation); 
+				return;
+			}
+			if (searchTermLength > order) {
+				displayMessage('That\'s too many words. ' + explanation); 
+				return;
+			}
+
 			if (currentModel['endStates'].includes(searchTerm)) {
 				displayMessage('The text that you searched ends the sentence.');
+				return;
+			}
+
+			var searchTermNextWords = currentModel['wordStats'][searchTerm];
+			if (searchTermNextWords == undefined || searchTermNextWords.length == 0) {
+				displayMessage('The text you searched does not appear in the data set.');
 				return;
 			}
 
@@ -201,7 +226,6 @@
 
 			// Sort the possible next words by frequency and alphabetical order
 			var wordFreqList = [];
-			var searchTermNextWords = currentModel['wordStats'][searchTerm];
 			for (word in searchTermNextWords) {
 				wordFreqList.push([word, searchTermNextWords[word]]);
 			}
