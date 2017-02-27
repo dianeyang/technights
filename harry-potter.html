@@ -2,9 +2,227 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>title</title>
+		<title>TechNights: Exercise 2</title>
+		<style type="text/css">
+			* {
+				box-sizing: border-box;
+			}
+			#left-column {
+				float: left;
+				padding-right: 30px;
+			}
+
+			#word-table {
+				padding-top: 20px;
+				float: left;
+			}
+
+			#scroll-box {
+				position: absolute;
+				height: 400px;
+				width: 300px;
+				border:1px solid #ccc;
+				overflow: auto;
+			}
+
+			#message {
+				position: relative;
+				text-align: center;
+				width: 250px;
+				left: 150px;
+				top: 200px;
+				margin-left: -125px;
+				margin-top: -30px;
+			}
+		</style>
+
+		<script src="json/hp-order-1.json"></script>
+		<script src="json/hp-order-2.json"></script>
+		<script src="json/hp-order-3.json"></script>
+		<script src="json/hp-order-4.json"></script>
 	</head>
 	<body>
-	<h1>Harry Potter</h1>
+	<h1>Exercise 2</h1>
+	<p>At this point, we've seen how Markov chains work, and we've trained an order-1 Markov chain on a small set of text to generate book titles. Even with just 6 input titles, we were able to get a variety of results. But this technique usually works better with more input text. Let's see what happens when we give the computer a lot more words to learn from!</p>
+	<p>In this exercise, you'll be experimenting with order-<em>n</em> Markov chains that have been trained on all the text in <em>Harry Potter</em> series of books (that's about <em>1 million</em> words!). But what should the value of <em>n</em> be? That's up to you! Experiment with different values of <em>n</em> and see how that changes your results.
+
+	<div id="left-column">
+		<h2>Instructions</h2>
+		<ol>
+			<li>Choose a value of <em>n</em> from 1 to 4.</li>
+			<li>...</li>
+		</ol>
+
+		<p>I am using an order-<select id="order" onchange="orderChanged()">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+			</select>
+		Markov chain.</p>
+
+		<br>
+		<button type="button" onclick="displayStartStates()">Show start words</button>
+		<br><br><br><br>
+		<input type="text" id="search" placeholder="Enter the last n words in your current sentence" style="width:300px">
+		<br>
+		<button type="button" onclick="displayNextWords()">Find what words could come next</button>
+	</div>
+
+	<div id="word-table">
+		<div id="scroll-box"></div>
+	</div>
+
+	<script type="text/javascript">
+		var models = [hp1, hp2, hp3, hp4];
+		var currentModel = hp1;
+
+		// Sort alphabetically (case-insensitive)
+		function alphabeticalSort(a, b) {
+		    var textA = a.toLowerCase();
+		    var textB = b.toLowerCase();
+		    if (textA < textB) {
+		    	return -1;
+		    } else if (textA > textB) {
+		    	return 1;
+		    }
+		    return 0;
+		}
+
+		function orderChanged() {
+			var dropdown = document.getElementById('order');
+			var order = dropdown.options[dropdown.selectedIndex].value;
+			order = parseInt(order);
+			currentModel = models[order-1];
+
+			var scrollBox = document.getElementById('scroll-box');
+			scrollBox.innerHTML = '';
+		}
+
+		function freqAlphaSort(a, b) {
+			var freqA = a[1]
+			var freqB = b[1];
+			if (freqA < freqB) {
+				return 1;
+			} else if (freqA > freqB) {
+				return -1;
+			} else {
+				if (a[0].toLowerCase() < b[0].toLowerCase()) {
+					return -1;
+				} else if (a[0].toLowerCase() > b[0].toLowerCase()) {
+					return 1;
+				} else {
+					return 0;
+				}
+			}
+		}
+
+		function displayStartStates() {
+			var scrollBox = document.getElementById('scroll-box');
+			scrollBox.innerHTML = '';
+			var wordTable = document.createElement('table')
+			scrollBox.appendChild(wordTable);
+
+			var leftHeader = document.createElement('th');
+			var leftLabel = document.createTextNode('Possible starting words');
+			leftHeader.appendChild(leftLabel);
+
+			var rightHeader = document.createElement('th');
+			var rightLabel = document.createTextNode('# of occurrences in Harry Potter');
+			rightHeader.appendChild(rightLabel);
+
+			var headerRow = document.createElement('tr');
+			headerRow.appendChild(leftHeader);
+			headerRow.appendChild(rightHeader);
+			wordTable.appendChild(headerRow);
+
+			// Sort the possible next words by frequency and alphabetical order
+			var startStates = currentModel['startStates'];
+			var wordFreqList = [];
+			for (word in startStates) {
+				wordFreqList.push([word, startStates[word]]);
+			}
+			var wordFreqList = wordFreqList.sort(freqAlphaSort);
+
+			for (var i = 0; i < wordFreqList.length; i++) {
+				var wordCell = document.createElement('td');
+				var wordText = document.createTextNode(wordFreqList[i][0]);
+				wordCell.appendChild(wordText);
+
+				var freqCell = document.createElement('td');
+				var freqText = document.createTextNode(wordFreqList[i][1]);
+				freqCell.appendChild(freqText);
+
+				var row = document.createElement('tr');
+				row.appendChild(wordCell);
+				row.appendChild(freqCell)
+				wordTable.append(row)
+			}
+		}
+
+		function displayMessage(text) {
+			var scrollBox = document.getElementById('scroll-box');
+			scrollBox.innerHTML = '';
+
+			var messageText = document.createTextNode(text);
+			var messageDiv = document.createElement('div');
+			messageDiv.id = 'message';
+			messageDiv.appendChild(messageText);
+
+			scrollBox.appendChild(messageDiv);
+		}
+
+		function displayNextWords() {
+			var searchTerm = document.getElementById('search').value;
+
+			if (currentModel['endStates'].includes(searchTerm)) {
+				displayMessage('The text that you searched ends the sentence.');
+				return;
+			}
+
+			var scrollBox = document.getElementById('scroll-box');
+			scrollBox.innerHTML = '';
+
+			var wordTable = document.createElement('table')
+			scrollBox.appendChild(wordTable);
+
+			var leftHeader = document.createElement('th');
+			var leftLabel = document.createTextNode('Possible next word');
+			leftHeader.appendChild(leftLabel);
+
+			var rightHeader = document.createElement('th');
+			var rightLabel = document.createTextNode('# of occurrences in Harry Potter');
+			rightHeader.appendChild(rightLabel);
+
+			var headerRow = document.createElement('tr');
+			headerRow.appendChild(leftHeader);
+			headerRow.appendChild(rightHeader);
+			wordTable.appendChild(headerRow);
+
+			// Sort the possible next words by frequency and alphabetical order
+			var wordFreqList = [];
+			var searchTermNextWords = currentModel['wordStats'][searchTerm];
+			for (word in searchTermNextWords) {
+				wordFreqList.push([word, searchTermNextWords[word]]);
+			}
+			var wordFreqList = wordFreqList.sort(freqAlphaSort);
+
+			for (var i = 0; i < wordFreqList.length; i++) {
+				var wordCell = document.createElement('td');
+				var wordText = document.createTextNode(wordFreqList[i][0]);
+				wordCell.appendChild(wordText);
+
+				var freqCell = document.createElement('td');
+				var freqText = document.createTextNode(wordFreqList[i][1]);
+				freqCell.appendChild(freqText);
+
+				var row = document.createElement('tr');
+				row.appendChild(wordCell);
+				row.appendChild(freqCell)
+				wordTable.append(row)
+			}
+		}
+
+	</script>
 	</body>
 </html>
