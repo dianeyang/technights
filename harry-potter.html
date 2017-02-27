@@ -35,12 +35,6 @@
                text-align: center;
             }
 
-            hr {
-                border: 0;
-                margin: 40px auto;
-                width: 250px;
-            }
-
             select {
                 background: #fff;
                 height: 30px;
@@ -79,6 +73,12 @@
 
             input[type=text]:focus, select:focus {
                 border-color: #1cb0f6;
+            }
+
+            #table-search {
+                width: 100%;
+                border-top-right-radius: 0;
+                border-top-left-radius: 0;
             }
 
             th, td {
@@ -143,6 +143,12 @@
                 padding: 20px 30px;
             }
 
+            #scroll-box.table-with-search {
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+                border-bottom: 0;
+            }
+
             #message {
                 position: relative;
                 text-align: center;
@@ -170,39 +176,6 @@
             loadJSON('json/hp-order-1.json', function(responseText) {
                 currentModel = JSON.parse(responseText);
             });
-
-            // Sort alphabetically (case-insensitive)
-            function alphabeticalSort(a, b) {
-                var textA = a.toLowerCase();
-                var textB = b.toLowerCase();
-                if (textA < textB) {
-                    return -1;
-                } else if (textA > textB) {
-                    return 1;
-                }
-                return 0;
-            }
-
-            function orderChanged() {
-                var dropdown = document.getElementById('order');
-                var selectedOrder = dropdown.options[dropdown.selectedIndex].value;
-                order = parseInt(selectedOrder);
-                currentModel = null;
-
-                loadJSON('json/hp-order-' + order + '.json', function(responseText) {
-                    currentModel = JSON.parse(responseText);
-                });
-
-                var searchBox = document.getElementById('search');
-                if (order == 1) {
-                    searchBox.placeholder = 'Enter the last word of your sentence.';
-                } else {
-                    searchBox.placeholder = 'Enter the last ' + order + ' words of your sentence.';
-                }
-
-                var scrollBox = document.getElementById('scroll-box');
-                scrollBox.innerHTML = '';
-            }
         </script>
     </head>
     <body>
@@ -234,7 +207,7 @@
                         <button type="button" onclick="displayStartStates()">Show starting words</button>
                     </div>
                     <div id="next-words-section">
-                        <input type="text" id="search" placeholder="Enter the last word of your sentence.">
+                        <input type="text" id="last-n-words-search" placeholder="Enter the last word of your sentence.">
                         <button type="button" onclick="displayNextWords()">Find possible next words</button>
                     </div>
                 </div>
@@ -246,9 +219,48 @@
         </div>
 
         <script type="text/javascript">
+            // An array of tuples of (word, frequency).
             var tableData;
             var pagesDisplayed = 0;
             var pageSize = 100;
+            var startWordsHeader = 'Possible starting words';
+            var nextWordsHeader = 'Possible next words';
+
+            function clearScrollBox() {
+                var scrollBox = document.getElementById('scroll-box');
+                scrollBox.innerHTML = '';
+                scrollBox.scrollTop = 0;
+                pagesDisplayed = 0;
+            }
+
+            function clearLastNWordsSearch() {
+                var lastNWordsSearch = document.getElementById('last-n-words-search');
+                lastNWordsSearch.value = '';
+            }
+
+            function reset() {
+                clearScrollBox();
+                removeTableSearchBar();
+            }
+
+            function orderChanged() {
+                var dropdown = document.getElementById('order');
+                var selectedOrder = dropdown.options[dropdown.selectedIndex].value;
+                order = parseInt(selectedOrder);
+                currentModel = null;
+
+                loadJSON('json/hp-order-' + order + '.json', function(responseText) {
+                    currentModel = JSON.parse(responseText);
+                });
+
+                var searchBox = document.getElementById('last-n-words-search');
+                if (order == 1) {
+                    searchBox.placeholder = 'Enter the last word of your sentence.';
+                } else {
+                    searchBox.placeholder = 'Enter the last ' + order + ' words of your sentence.';
+                }
+                reset();
+            }
 
             // Sort by frequency, and then by alphabetical order in case of a tie
             function freqAlphaSort(a, b) {
@@ -291,17 +303,55 @@
                 }
             }
 
+            function addTableSearchBar() {
+                var searchInput = document.createElement('input');
+                searchInput.type = 'text';
+                searchInput.id = 'table-search';
+                searchInput.placeholder = 'Search the options in the table';
+
+                var scrollBox = document.getElementById('scroll-box');
+                scrollBox.classList.add('table-with-search');
+
+                var rightColumn = document.getElementById('right-column');
+                rightColumn.appendChild(searchInput);
+
+                document.getElementById('table-search').onkeyup = function(e){
+                    if (!e) e = window.event;
+                    var keyCode = e.keyCode || e.which;
+                    var searchTerm = e.target.value.trim();
+
+                    if (searchTerm.length == 0) {
+                        var currentHeaderText = document.getElementById('left-table-header').textContent;
+                        if (currentHeaderText == startWordsHeader) {
+                            displayStartStates();
+                        } else {
+                            displayNextWords();
+                        }
+                    } else {
+                        searchTableData(searchTerm);
+                    }
+                }
+            }
+
+            function removeTableSearchBar() {
+                var tableSearch = document.getElementById('table-search');
+                if (tableSearch) {
+                    document.getElementById('right-column').removeChild(tableSearch);
+                    var scrollBox = document.getElementById('scroll-box');
+                    scrollBox.classList.remove('table-with-search');
+                }
+            }
+
             // Display a table given a mapping of words to frequencies + a header label.
             function displayTable(data, leftHeaderLabel) {
-                var scrollBox = document.getElementById('scroll-box');
-                scrollBox.innerHTML = '';
-                scrollBox.scrollTop = 0;
+                clearScrollBox();
 
                 var wordTable = document.createElement('table')
                 wordTable.id = 'word-table';
-                scrollBox.appendChild(wordTable);
+                document.getElementById('scroll-box').appendChild(wordTable);
 
                 var leftHeader = document.createElement('th');
+                leftHeader.id = 'left-table-header';
                 var leftLabel = document.createTextNode(leftHeaderLabel);
                 leftHeader.appendChild(leftLabel);
 
@@ -320,32 +370,36 @@
                     wordFreqList.push([word, data[word]]);
                 }
                 tableData = wordFreqList.sort(freqAlphaSort);
-                pagesDisplayed = 0;
 
                 addRowsToTable(wordTable);
+
+                if (!document.getElementById('table-search')) {
+                    addTableSearchBar();
+                }
             }
 
             function displayStartStates() {
                 if (currentModel == null) {
                     return;
                 }
-                displayTable(currentModel['startStates'], 'Possible starting words')
+                clearLastNWordsSearch();
+                displayTable(currentModel['startStates'], startWordsHeader)
             }
 
             function displayMessage(text) {
-                var scrollBox = document.getElementById('scroll-box');
-                scrollBox.innerHTML = '';
+                clearScrollBox();
+                removeTableSearchBar();
 
                 var messageText = document.createTextNode(text);
                 var messageDiv = document.createElement('div');
                 messageDiv.id = 'message';
                 messageDiv.appendChild(messageText);
 
-                scrollBox.appendChild(messageDiv);
+                document.getElementById('scroll-box').appendChild(messageDiv);
             }
 
             function displayNextWords() {
-                var searchTerm = document.getElementById('search').value.trim();
+                var searchTerm = document.getElementById('last-n-words-search').value.trim();
 
                 var searchTermLength = searchTerm.split(' ').length;
                 var explanation = 'Your search should have exactly ' + order + ' word' + 's'.repeat(order > 1 ? 1 : 0) + '.'
@@ -373,13 +427,29 @@
                     return;
                 }
 
-                displayTable(searchTermNextWords, 'Possible next word');
+                displayTable(searchTermNextWords, nextWordsHeader);
+            }
+
+            function searchTableData(searchTerm) {
+                var searchData = {};
+                for (var i = 0; i < tableData.length; i++) {
+                    var state = tableData[i][0];
+                    if (state.includes(searchTerm)) {
+                        searchData[state] = tableData[i][1];
+                    }
+                }
+                var currentHeaderText = document.getElementById('left-table-header').textContent;
+                if (Object.keys(searchData).length == 0) {
+                    displayTable({'Oops! None of the options contain that text.': ''}, currentHeaderText);
+                } else {
+                    displayTable(searchData, currentHeaderText);
+                }
             }
 
             displayMessage('Use the controls on the left to get started!');
 
             // Search when the user presses enter in the input
-            document.getElementById('search').onkeypress = function(e){
+            document.getElementById('last-n-words-search').onkeypress = function(e){
                 if (!e) e = window.event;
                 var keyCode = e.keyCode || e.which;
                 if (keyCode == '13'){
