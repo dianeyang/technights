@@ -59,7 +59,7 @@
                 border-radius: 999px;
                 border: 0;
                 height: 40px;
-                width: 280px;
+                width: 300px;
                 text-transform: uppercase;
                 font-size: 14px;
                 font-family: 'Lato';
@@ -74,7 +74,7 @@
                 font-size: 14px;
                 font-family: 'Lato';
                 line-height: normal;
-                width: 280px;
+                width: 300px;
             }
 
             input[type=text]:focus, select:focus {
@@ -235,7 +235,7 @@
                     </div>
                     <div id="next-words-section">
                         <input type="text" id="search" placeholder="Enter the last word of your sentence.">
-                        <button type="button" onclick="displayNextWords()">Find possible next words</button>
+                        <button type="button" onclick="displayNextWords()">Show possible following words</button>
                     </div>
                 </div>
 
@@ -373,7 +373,7 @@
                     return;
                 }
 
-                displayTable(searchTermNextWords, 'Possible next word');
+                displayTable(searchTermNextWords, 'Possible following words');
             }
 
             displayMessage('Use the controls on the left to get started!');
