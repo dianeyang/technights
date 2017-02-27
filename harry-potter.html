@@ -264,15 +264,17 @@
                 }
             }
 
-            function displayStartStates() {
+            // Display a table given a mapping of words to frequencies + a header label.
+            function displayTable(data, leftHeaderLabel) {
                 var scrollBox = document.getElementById('scroll-box');
                 scrollBox.innerHTML = '';
                 scrollBox.scrollTop = 0;
+
                 var wordTable = document.createElement('table')
                 scrollBox.appendChild(wordTable);
 
                 var leftHeader = document.createElement('th');
-                var leftLabel = document.createTextNode('Possible starting words');
+                var leftLabel = document.createTextNode(leftHeaderLabel);
                 leftHeader.appendChild(leftLabel);
 
                 var rightHeader = document.createElement('th');
@@ -285,10 +287,9 @@
                 wordTable.appendChild(headerRow);
 
                 // Sort the possible next words by frequency and alphabetical order
-                var startStates = currentModel['startStates'];
                 var wordFreqList = [];
-                for (word in startStates) {
-                    wordFreqList.push([word, startStates[word]]);
+                for (word in data) {
+                    wordFreqList.push([word, data[word]]);
                 }
                 var wordFreqList = wordFreqList.sort(freqAlphaSort);
 
@@ -306,6 +307,10 @@
                     row.appendChild(freqCell)
                     wordTable.append(row)
                 }
+            }
+
+            function displayStartStates() {
+                displayTable(currentModel['startStates'], 'Possible starting words')
             }
 
             function displayMessage(text) {
@@ -345,47 +350,7 @@
                     return;
                 }
 
-                var scrollBox = document.getElementById('scroll-box');
-                scrollBox.innerHTML = '';
-                scrollBox.scrollTop = 0;
-
-                var wordTable = document.createElement('table')
-                scrollBox.appendChild(wordTable);
-
-                var leftHeader = document.createElement('th');
-                var leftLabel = document.createTextNode('Possible next word');
-                leftHeader.appendChild(leftLabel);
-
-                var rightHeader = document.createElement('th');
-                var rightLabel = document.createTextNode('# of occurrences in Harry Potter');
-                rightHeader.appendChild(rightLabel);
-
-                var headerRow = document.createElement('tr');
-                headerRow.appendChild(leftHeader);
-                headerRow.appendChild(rightHeader);
-                wordTable.appendChild(headerRow);
-
-                // Sort the possible next words by frequency and alphabetical order
-                var wordFreqList = [];
-                for (word in searchTermNextWords) {
-                    wordFreqList.push([word, searchTermNextWords[word]]);
-                }
-                var wordFreqList = wordFreqList.sort(freqAlphaSort);
-
-                for (var i = 0; i < wordFreqList.length; i++) {
-                    var wordCell = document.createElement('td');
-                    var wordText = document.createTextNode(wordFreqList[i][0]);
-                    wordCell.appendChild(wordText);
-
-                    var freqCell = document.createElement('td');
-                    var freqText = document.createTextNode(wordFreqList[i][1]);
-                    freqCell.appendChild(freqText);
-
-                    var row = document.createElement('tr');
-                    row.appendChild(wordCell);
-                    row.appendChild(freqCell)
-                    wordTable.append(row)
-                }
+                displayTable(searchTermNextWords, 'Possible next word');
             }
 
             displayMessage('Use the controls on the left to get started!');
