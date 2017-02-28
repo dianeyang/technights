@@ -77,16 +77,16 @@ function freqAlphaSort(a, b) {
     }
 }
 
-function addRowsToTable(table) {
+function addRowsToTable(data, table) {
     var startingPoint = pageSize*pagesDisplayed;
-    var rowsToAdd = Math.min(tableData.length - startingPoint, pageSize);
+    var rowsToAdd = Math.min(data.length - startingPoint, pageSize);
     for (var i = startingPoint; i < startingPoint + rowsToAdd; i++) {
         var wordCell = document.createElement('td');
-        var wordText = document.createTextNode(tableData[i][0]);
+        var wordText = document.createTextNode(data[i][0]);
         wordCell.appendChild(wordText);
 
         var freqCell = document.createElement('td');
-        var freqText = document.createTextNode(tableData[i][1]);
+        var freqText = document.createTextNode(data[i][1]);
         freqCell.appendChild(freqText);
 
         var row = document.createElement('tr');
@@ -138,6 +138,14 @@ function removeTableSearchBar() {
     }
 }
 
+function formatTableData(data) {
+    var wordFreqList = [];
+    for (word in data) {
+        wordFreqList.push([word, data[word]]);
+    }
+    return wordFreqList.sort(freqAlphaSort);
+}
+
 // Display a table given a mapping of words to frequencies + a header label.
 function displayTable(data, leftHeaderLabel) {
     clearScrollBox();
@@ -160,14 +168,7 @@ function displayTable(data, leftHeaderLabel) {
     headerRow.appendChild(rightHeader);
     wordTable.appendChild(headerRow);
 
-    // Sort the possible next words by frequency and alphabetical order
-    var wordFreqList = [];
-    for (word in data) {
-        wordFreqList.push([word, data[word]]);
-    }
-    tableData = wordFreqList.sort(freqAlphaSort);
-
-    addRowsToTable(wordTable);
+    addRowsToTable(data, wordTable);
 
     if (!document.getElementById('table-search')) {
         addTableSearchBar();
@@ -179,7 +180,8 @@ function displayStartStates() {
         return;
     }
     clearInput('last-n-words-search');
-    displayTable(currentModel['startStates'], startWordsHeader)
+    tableData = formatTableData(currentModel['startStates']);
+    displayTable(tableData, startWordsHeader)
 }
 
 function displayMessage(text) {
@@ -228,20 +230,17 @@ function displayNextWords() {
         return;
     }
 
-    displayTable(searchTermNextWords, nextWordsHeader);
+    tableData = formatTableData(searchTermNextWords);
+    displayTable(tableData, nextWordsHeader);
 }
 
 function searchTableData(searchTerm) {
-    var searchData = {};
-    for (var i = 0; i < tableData.length; i++) {
-        var state = tableData[i][0];
-        if (state.includes(searchTerm)) {
-            searchData[state] = tableData[i][1];
-        }
-    }
+    var searchData = tableData.filter(function(elt) {
+        return elt[0].includes(searchTerm);
+    })
     var currentHeaderText = document.getElementById('left-table-header').textContent;
     if (Object.keys(searchData).length == 0) {
-        displayTable({'Oops! None of the options contain that text.': ''}, currentHeaderText);
+        displayTable([['Oops! None of the options contain that text.', '']], currentHeaderText);
     } else {
         displayTable(searchData, currentHeaderText);
     }
@@ -266,6 +265,6 @@ document.getElementById('scroll-box').onscroll = function(e) {
     var table = document.getElementById('word-table');
     var nearBottom = e.target.scrollTop > (e.target.scrollHeight - e.target.offsetHeight - 400);
     if (table != null && nearBottom) {
-        addRowsToTable(document.getElementById('word-table'));
+        addRowsToTable(tableData, document.getElementById('word-table'));
     }
 };
