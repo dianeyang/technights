@@ -1,0 +1,168 @@
+* {
+    box-sizing: border-box;
+    outline: none;
+}
+
+body {
+    font-family: 'Lato';
+    line-height: 1.5;
+    color: #4c4c4c;
+    background-color: #f0f0f0;
+    margin: 0;
+    border-top: 10px solid #1cb0f6;
+}
+
+::-webkit-input-placeholder {
+   text-align: center;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   text-align: center;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   text-align: center;
+}
+
+:-ms-input-placeholder {
+   text-align: center;
+}
+
+select {
+    background: #fff;
+    height: 30px;
+    width: 40px;
+    border: 2px solid #cfcfcf;
+    font-size: 14px;
+    font-family: 'Lato';
+}
+
+button {
+    background-color: #1cb0f6;
+    color: #fff;
+    padding: 0 20px;
+    -webkit-border-radius: 999px;
+    -moz-border-radius: 999px;
+    border-radius: 999px;
+    border: 0;
+    height: 40px;
+    width: 300px;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-family: 'Lato';
+}
+
+input[type=text] {
+    border: 2px solid #cfcfcf;
+    border-radius: 6px;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    color: #4c4c4c;
+    font-size: 14px;
+    font-family: 'Lato';
+    line-height: normal;
+    width: 300px;
+}
+
+input[type=text]:focus, select:focus {
+    border-color: #1cb0f6;
+}
+
+table {
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+}
+
+th, td {
+    width: 50%;
+    border-bottom: 1px solid #cfcfcf;
+}
+
+th {
+    padding-bottom: 10px;
+}
+
+td {
+    padding: 5px 0;
+}
+
+.section {
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.section p:first-child {
+    font-weight: bold;
+}
+
+#container {
+    margin: auto;
+    padding-top: 50px;
+    width: 70%;
+    min-width: 700px;
+}
+
+#exercise {
+    margin: auto;
+    width: 100%;
+    margin-bottom: 80px;
+    margin-top: 40px;
+    float: left;
+}
+
+#left-column {
+    float: left;
+    width: 50%;
+    padding-right: 30px;
+    text-align: center;
+}
+
+#order {
+    margin-top: 30px;
+}
+
+#start-words {
+    margin-top: 80px;
+}
+
+#next-words {
+    margin-top: 90px;
+}
+
+#right-column {
+    float: left;
+    width: 50%;
+}
+
+#scroll-box {
+    height: 520px;
+    width: 400px;
+    border: 2px solid #cfcfcf;
+    border-radius: 6px;
+    overflow: auto;
+    background-color: #fff;
+    padding: 20px 30px;
+}
+
+#scroll-box.table-with-search {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: 0;
+    height: 480px;
+}
+
+#table-search {
+    width: 400px;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+
+#message {
+    position: relative;
+    text-align: center;
+    width: 250px;
+    top: 200px;
+    margin: auto;
+}
