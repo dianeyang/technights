@@ -52,6 +52,10 @@ button {
     font-family: 'Lato';
 }
 
+button:active {
+    background-color: #3ebbf7;
+}
+
 input[type=text] {
     border: 2px solid #cfcfcf;
     border-radius: 6px;

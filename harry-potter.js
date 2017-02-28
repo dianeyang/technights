@@ -5,7 +5,7 @@ var order = 1;
 var tableData;
 var pagesDisplayed = 0;
 var pageSize = 100;
-var startWordsHeader = 'Possible starting words';
+var startWordsHeader = 'Possible start words';
 var nextWordsHeader = 'Possible next words';
 
 function loadJSON(pathToFile, callback) {
