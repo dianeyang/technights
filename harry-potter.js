@@ -224,7 +224,7 @@ function displayNextWords() {
 
     var searchTermNextWords = currentModel['wordStats'][searchTerm];
     if (searchTermNextWords == undefined || searchTermNextWords.length == 0) {
-        displayMessage('The text you searched does not appear in the data set.');
+        displayMessage('The text you searched does not appear in the data set. Make sure your capitalization and punctuation are correct.');
         return;
     }
 
