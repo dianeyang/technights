@@ -75,13 +75,9 @@
                 border-color: #1cb0f6;
             }
 
-            #table-search {
-                width: 100%;
-                border-top-right-radius: 0;
-                border-top-left-radius: 0;
-            }
-
             table {
+                width: 100%;
+                max-width: 500px;
                 margin: auto;
             }
 
@@ -102,6 +98,10 @@
                 width: 300px;
                 margin-left: auto;
                 margin-right: auto;
+            }
+
+            .section p:first-child {
+                font-weight: bold;
             }
 
             #container {
@@ -144,8 +144,8 @@
             }
 
             #scroll-box {
-                height: 400px;
-                width: 100%;
+                height: 520px;
+                width: 400px;
                 border: 2px solid #cfcfcf;
                 border-radius: 6px;
                 overflow: auto;
@@ -157,13 +157,20 @@
                 border-bottom-left-radius: 0;
                 border-bottom-right-radius: 0;
                 border-bottom: 0;
+                height: 480px;
+            }
+
+            #table-search {
+                width: 400px;
+                border-top-right-radius: 0;
+                border-top-left-radius: 0;
             }
 
             #message {
                 position: relative;
                 text-align: center;
                 width: 250px;
-                top: 140px;
+                top: 200px;
                 margin: auto;
             }
         </style>
@@ -207,7 +214,8 @@
             <div id="exercise">
                 <div id="left-column">
                     <div id="order" class="section">
-                        <p>I am using an order-<select id="select-order" onchange="orderChanged()">
+                        <p>Step 1: Choose order</p>
+                        <p>I want to use an order-<select id="select-order" onchange="orderChanged()">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -216,9 +224,11 @@
                         Markov chain.</p>
                     </div>
                     <div id="start-words" class="section">
+                        <p>Step 2: Choose start words</p>
                         <button type="button" onclick="displayStartStates()">Show starting words</button>
                     </div>
                     <div id="next-words" class="section">
+                        <p>Step 3: Choose following words</p>
                         <input type="text" id="last-n-words-search" placeholder="Enter the last word of your sentence.">
                         <button type="button" onclick="displayNextWords()">Show possible following words</button>
                     </div>
