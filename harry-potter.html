@@ -81,6 +81,10 @@
                 border-top-left-radius: 0;
             }
 
+            table {
+                margin: auto;
+            }
+
             th, td {
                 width: 50%;
                 border-bottom: 1px solid #cfcfcf;
@@ -92,6 +96,12 @@
 
             td {
                 padding: 5px 0;
+            }
+
+            .section {
+                width: 300px;
+                margin-left: auto;
+                margin-right: auto;
             }
 
             #container {
@@ -116,15 +126,15 @@
                 text-align: center;
             }
 
-            #order-section {
+            #order {
                 margin-top: 30px;
             }
 
-            #start-words-section {
+            #start-words {
                 margin-top: 80px;
             }
 
-            #next-words-section {
+            #next-words {
                 margin-top: 90px;
             }
 
@@ -192,10 +202,12 @@
                 <li>After you reach the end of your sentence, you can go ahead and start another sentence. Remember to try different values of <em>n</em>!</li>
             </ol>
 
+            <p>Note: When you enter text into the search bars, make sure to use the <strong>exact same capitalization and punctuation</strong> as what the computer originally gave you!</p>
+
             <div id="exercise">
                 <div id="left-column">
-                    <div id="order-section">
-                        <p>I am using an order-<select id="order" onchange="orderChanged()">
+                    <div id="order" class="section">
+                        <p>I am using an order-<select id="select-order" onchange="orderChanged()">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -203,10 +215,10 @@
                             </select>
                         Markov chain.</p>
                     </div>
-                    <div id="start-words-section">
+                    <div id="start-words" class="section">
                         <button type="button" onclick="displayStartStates()">Show starting words</button>
                     </div>
-                    <div id="next-words-section">
+                    <div id="next-words" class="section">
                         <input type="text" id="last-n-words-search" placeholder="Enter the last word of your sentence.">
                         <button type="button" onclick="displayNextWords()">Show possible following words</button>
                     </div>
@@ -245,7 +257,7 @@
             }
 
             function orderChanged() {
-                var dropdown = document.getElementById('order');
+                var dropdown = document.getElementById('select-order');
                 var selectedOrder = dropdown.options[dropdown.selectedIndex].value;
                 order = parseInt(selectedOrder);
                 currentModel = null;
@@ -409,7 +421,7 @@
                 var searchTerm = document.getElementById('last-n-words-search').value.trim();
 
                 var searchTermLength = searchTerm.split(' ').length;
-                var explanation = 'Your search should have exactly ' + order + ' word' + 's'.repeat(order > 1 ? 1 : 0) + '.'
+                var explanation = 'Your search should have exactly ' + order + ' word' + (order > 1 ? 's' : '') + '.'
                 if (searchTerm.length == 0 || searchTermLength < order) {
                     displayMessage('That doesn\'t seem to be enough words. ' + explanation);
                     return;
